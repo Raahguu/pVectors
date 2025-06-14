@@ -3,4 +3,4 @@ and calculations around them in a simple way.
 It is written in python and at the moment only supports 2D vectors.
 This project bases vactors off of the c# implementation of them."""
 
-from pVector.vector2 import *
+from pVectors.vector2 import *
