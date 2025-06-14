@@ -74,9 +74,24 @@ class Vector2:
         return f"Vector2({self.x}, {self.y})"
     def __len__(self):
         return self.length()
-    def __eq__(self, value):
-        if str(type(value)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(value)}")
-        return [self.x, self.y] == [value.x, value.y]
+    def __eq__(self, other):
+        if str(type(other)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(other)}")
+        return [self.x, self.y] == [other.x, other.y]
+    def __ne__(self, other):
+        if str(type(other)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(other)}")
+        return [self.x, self.y] != [other.x, other.y]
+    def __lt__(self, other):
+        if str(type(other)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(other)}")
+        return self.length_squared() < other.length_squared()
+    def __le__(self, other):
+        if str(type(other)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(other)}")
+        return self.length_squared() <= other.length_squared()
+    def __gt__(self, other):
+        if str(type(other)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(other)}")
+        return self.length_squared() > other.length_squared()
+    def __ge__(self, other):
+        if str(type(other)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(other)}")
+        return self.length_squared() >= other.length_squared()
 
     #For immutable/Frozen vectors
     def freeze(self):
