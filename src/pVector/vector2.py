@@ -1,20 +1,8 @@
-from typing import overload, ClassVar, Self
+from typing import overload, Self
 import math
 
 class Vector2:
     """A class for handling the storage and math behind vectors in 2d space"""
-
-    #Define the class attributes so intellisense can see them
-    ZERO: ClassVar["Vector2"]
-    ONE: ClassVar["Vector2"]
-    UP: ClassVar["Vector2"]
-    DOWN: ClassVar["Vector2"]
-    LEFT: ClassVar["Vector2"]
-    RIGHT: ClassVar["Vector2"]
-    NEGATIVE_INFINITE: ClassVar["Vector2"]
-    INFINITE: ClassVar["Vector2"]
-    E: ClassVar["Vector2"]
-    PI: ClassVar["Vector2"]
 
     @overload
     def __init__(self, x : float, y : float) -> None: 
@@ -78,6 +66,39 @@ class Vector2:
         length = self.magnitude()
         self.x = math.sin(value) * length
         self.y = math.cos(value) * length
+    
+    #Constant attribute properties with no setters
+    @property
+    def ZERO(self) -> Self:
+        return Vector2(0)
+    @property
+    def ONE(self) -> Self:
+        return Vector2(1)
+    @property
+    def UP(self) -> Self:
+        return Vector2(0, 1)
+    @property
+    def DOWN(self) -> Self:
+        return Vector2(0, -1)
+    @property
+    def LEFT(self) -> Self:
+        return Vector2(-1, 0)
+    @property
+    def RIGHT(self) -> Self:
+        return Vector2(1, 0)
+    @property
+    def NEGATIVE_INFINITE(self) -> Self:
+        return Vector2(float("-inf"))
+    @property
+    def INFINITE(self) -> Self:
+        return Vector2(float("inf"))
+    @property
+    def E(self) -> Self:
+        return Vector2(math.e)
+    @property
+    def PI(self) -> Self:
+        return Vector2(math.pi)
+
 
     #Math Methods
     def magnitude_squared(self : Self) -> float:
@@ -268,7 +289,7 @@ class Vector2:
 
     #For immutable/Frozen vectors
     def freeze(self):
-        """This will return a new vector2 with the exact same `x` and `y` values of this one, that is immutable"""
+        """DEPRECATED: This will return a new vector2 with the exact same `x` and `y` values of this one, that is immutable"""
         class _FrozenVector2(Vector2):
             "A frozen/immutable Vector2"
             def __init__(self, x, y):
@@ -282,17 +303,5 @@ class Vector2:
     i = x
     j = y
 
-#Set the value for the constant class attributes, and freeze them
-Vector2.ZERO = Vector2(0).freeze()
-Vector2.ONE = Vector2(1).freeze()
-Vector2.UP = Vector2(0, 1).freeze()
-Vector2.DOWN = Vector2(0, -1).freeze()
-Vector2.LEFT = Vector2(-1, 0).freeze()
-Vector2.RIGHT = Vector2(1, 0).freeze()
-Vector2.NEGATIVE_INFINITE = Vector2(float("-inf")).freeze()
-Vector2.INFINITE = Vector2(float("inf")).freeze()
-Vector2.E = Vector2(math.e).freeze()
-Vector2.PI = Vector2(math.pi).freeze()
-
 #Delete the now unneeded imports
-del overload, ClassVar, Self, math
+del overload, Self, math
