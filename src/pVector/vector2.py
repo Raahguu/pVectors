@@ -55,6 +55,29 @@ class Vector2:
         value = float(value)
         self.__y = value
 
+    #Math Methods
+    def length_squared(self) -> float:
+        """Returns the length of this vector squared"""
+        return self.x ** 2 + self.y ** 2
+    def length(self) -> float:
+        """Returns the length of this vector"""
+        return self.length_squared() ** 0.5
+    def normalized(self) -> Self:
+        """Returns a new vector in the same direction of the original but with a `magnitude` or `length` of 1"""
+        divisor = self.length()
+        return Vector2(self.x / divisor, self.y / divisor)
+
+    #Dunder Methods
+    def __repr__(self):
+        return f"Vector2({self.x}, {self.y})"
+    def __str__(self):
+        return f"Vector2({self.x}, {self.y})"
+    def __len__(self):
+        return self.length()
+    def __eq__(self, value):
+        if str(type(value)) not in (str(type(Vector2)), "<class '_FrozenVector2'>"): raise TypeError(f"Cannot compare type Vector2 with type {type(value)}")
+        return [self.x, self.y] == [value.x, value.y]
+
     #For immutable/Frozen vectors
     def freeze(self):
         """This will return a new vector2 with the exact same `x` and `y` values of this one, that is immutable"""
@@ -70,6 +93,7 @@ class Vector2:
     #Aliases
     i = x
     j = y
+    magnitude = length
 
 #Set the value for the constant class attributes, and freeze them
 Vector2.ZERO = Vector2(0).freeze()
