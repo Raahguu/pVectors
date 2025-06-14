@@ -2,6 +2,17 @@ from typing import overload, ClassVar, Self
 
 class Vector2:
     """A class for handling the storage and math behind vectors in 2d space"""
+
+    #Define the class attributes so intellisense can see them
+    ZERO: ClassVar["Vector2"]
+    ONE: ClassVar["Vector2"]
+    UP: ClassVar["Vector2"]
+    DOWN: ClassVar["Vector2"]
+    LEFT: ClassVar["Vector2"]
+    RIGHT: ClassVar["Vector2"]
+    NEGATIVE_INFINITE: ClassVar["Vector2"]
+    INFINITE: ClassVar["Vector2"]
+
     @overload
     def __init__(self, x : float, y : float) -> None: 
         """Specify the `x` and `y` componets of the vector"""
@@ -43,3 +54,32 @@ class Vector2:
     def y(self, value : float):
         value = float(value)
         self.__y = value
+
+    #For immutable/Frozen vectors
+    def freeze(self):
+        """This will return a new vector2 with the exact same `x` and `y` values of this one, that is immutable"""
+        class _FrozenVector2(Vector2):
+            "A frozen/immutable Vector2"
+            def __init__(self, x, y):
+                object.__setattr__(self, '_Vector2__x', x)
+                object.__setattr__(self, '_Vector2__y', y)
+            def __setattr__(self, name, value):
+                raise AttributeError("This Vector2 instance is immutable")
+        return _FrozenVector2(self.x, self.y)
+    
+    #Aliases
+    i = x
+    j = y
+
+#Set the value for the constant class attributes, and freeze them
+Vector2.ZERO = Vector2(0).freeze()
+Vector2.ONE = Vector2(1).freeze()
+Vector2.UP = Vector2(0, 1).freeze()
+Vector2.DOWN = Vector2(0, -1).freeze()
+Vector2.LEFT = Vector2(-1, 0).freeze()
+Vector2.RIGHT = Vector2(1, 0).freeze()
+Vector2.NEGATIVE_INFINITE = Vector2(float("-inf")).freeze()
+Vector2.INFINITE = Vector2(float("inf")).freeze()
+
+#Delete the now unneeded imports
+del overload, ClassVar, Self
