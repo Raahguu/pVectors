@@ -286,19 +286,6 @@ class Vector2:
     def __deepcopy__(self, memo=None):
         return Vector2(self)
     
-
-    #For immutable/Frozen vectors
-    def freeze(self):
-        """DEPRECATED: This will return a new vector2 with the exact same `x` and `y` values of this one, that is immutable"""
-        class _FrozenVector2(Vector2):
-            "A frozen/immutable Vector2"
-            def __init__(self, x, y):
-                object.__setattr__(self, '_Vector2__x', x)
-                object.__setattr__(self, '_Vector2__y', y)
-            def __setattr__(self, name, value):
-                raise AttributeError("This Vector2 instance is immutable")
-        return _FrozenVector2(self.x, self.y)
-    
     #Aliases
     i = x
     j = y
