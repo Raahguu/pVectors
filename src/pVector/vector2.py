@@ -39,6 +39,7 @@ class Vector2:
         else:
             raise TypeError("Excpected either (x, y), (value), or ([x, y])")
 
+
     #Getters and Setters
     @property
     def x(self) -> float:
@@ -54,6 +55,7 @@ class Vector2:
     def y(self, value : float):
         value = float(value)
         self.__y = value
+
 
     #Math Methods
     def length_squared(self) -> float:
@@ -99,7 +101,7 @@ class Vector2:
         return self.length_squared() >= other.length_squared()
     
     def __iter__(self):
-        return (self.x, self.y)
+        return iter((self.x, self.y))
     def __bool__(self):
         return True if  self.x != 0 or self.y != 0 else False
     def __complex__(self):
@@ -138,7 +140,7 @@ class Vector2:
             else: raise ValueError(f"When dot producting type `Vector2` and type `{type(other)}`, then the `{type(other)}` must be of length 2")
         else: raise TypeError(f"Cannot mutliply type `Vector2` and type `{type(other)}`")
     def __rmul__(self, other):
-        self.__rmul__(other)
+        return self.__rmul__(other)
     
     def __truediv__(self, other):
         if type(other) not in (int, float): raise TypeError("Can only divide a type `Vector2`, by a scalar multiple (`int` or `float`)")
