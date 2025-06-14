@@ -262,7 +262,7 @@ class Vector2:
             else: raise ValueError(f"When dot producting type `Vector2` and type `{type(other)}`, then the `{type(other)}` must be of length 2")
         else: raise TypeError(f"Cannot mutliply type `Vector2` and type `{type(other)}`")
     def __rmul__(self, other):
-        return self.__rmul__(other)
+        return self.__mul__(other)
     
     def __truediv__(self, other):
         if type(other) not in (int, float): raise TypeError("Can only divide a type `Vector2`, by a scalar multiple (`int` or `float`)")
