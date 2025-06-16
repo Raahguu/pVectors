@@ -1,8 +1,20 @@
-from typing import overload
+from typing import overload, ClassVar
 import math
 
 class Vector2:
     """A class for handling the storage and math behind vectors in 2d space"""
+
+    # Class Attributes
+    ZERO: ClassVar['Vector2']
+    ONE: ClassVar['Vector2']
+    UP: ClassVar['Vector2']
+    DOWN : ClassVar['Vector2']
+    LEFT: ClassVar['Vector2']
+    RIGHT: ClassVar['Vector2']
+    NEGATIVE_INFINITE: ClassVar['Vector2']
+    INFINITE: ClassVar['Vector2']
+    E: ClassVar['Vector2']
+    PI: ClassVar['Vector2']
 
     @overload
     def __init__(self, x : float, y : float) -> None: 
@@ -61,13 +73,13 @@ class Vector2:
     @angle.setter
     def angle(self, value : float):
         value = float(value)
-        if value > math.pi or value < -math.pi: raise ValueError("The angle os a `Vector2` must be within [pi, -pi)]")
+        if value > math.pi or value < -math.pi: raise ValueError("The angle of a `Vector2` must be within [pi, -pi)]")
         length = self.magnitude
         self.x = math.cos(value) * length
         self.y = math.sin(value) * length
     @property
     def magnitude_squared(self) -> float:
-        """Returns the length of this vector squared"""
+        """The length/magnitude of this vector squared"""
         return self.x ** 2 + self.y ** 2
     @magnitude_squared.setter
     def magnitude_squared(self, value : float):
@@ -78,7 +90,7 @@ class Vector2:
         self.y *= value / length_squared
     @property
     def magnitude(self) -> float:
-        """Returns the length of this vector"""
+        """The length/magnitude of this vector"""
         return math.sqrt(self.magnitude_squared)
     @magnitude.setter
     def magnitude(self, value : float):
@@ -87,38 +99,6 @@ class Vector2:
         except: raise TypeError(f"A `Vector2`'s magnitude is stored as a float. Cannot implicitly convert `{value}` to a float.")
         self.x *= value / length
         self.y *= value / length
-    
-    #Constant attribute properties with no setters
-    @property
-    def ZERO(self) -> 'Vector2':
-        return Vector2(0)
-    @property
-    def ONE(self) -> 'Vector2':
-        return Vector2(1)
-    @property
-    def UP(self) -> 'Vector2':
-        return Vector2(0, 1)
-    @property
-    def DOWN(self) -> 'Vector2':
-        return Vector2(0, -1)
-    @property
-    def LEFT(self) -> 'Vector2':
-        return Vector2(-1, 0)
-    @property
-    def RIGHT(self) -> 'Vector2':
-        return Vector2(1, 0)
-    @property
-    def NEGATIVE_INFINITE(self) -> 'Vector2':
-        return Vector2(float("-inf"))
-    @property
-    def INFINITE(self) -> 'Vector2':
-        return Vector2(float("inf"))
-    @property
-    def E(self) -> 'Vector2':
-        return Vector2(math.e)
-    @property
-    def PI(self) -> 'Vector2':
-        return Vector2(math.pi)
 
 
     #Normal Methods
@@ -315,5 +295,17 @@ class Vector2:
     i = x
     j = y
 
+# Class Attributes
+Vector2.ZERO = Vector2(0)
+Vector2.ONE = Vector2(1)
+Vector2.UP = Vector2(0, 1)
+Vector2.DOWN = Vector2(0, -1)
+Vector2.LEFT = Vector2(-1, 0)
+Vector2.RIGHT = Vector2(1, 0)
+Vector2.NEGATIVE_INFINITE = Vector2(float("-inf"))
+Vector2.INFINITE = Vector2(float("inf"))
+Vector2.E = Vector2(math.e)
+Vector2.PI = Vector2(math.pi)
+
 #Delete the now unneeded imports
-del overload, math
+del overload, ClassVar
