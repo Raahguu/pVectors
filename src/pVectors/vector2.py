@@ -139,7 +139,7 @@ class Vector2:
     @staticmethod
     def distance_between(a : 'Vector2', b : 'Vector2') -> float:
         """Returns the distance between two vectors"""
-        return math.sqrt(a.distance_between_squared(b))
+        return math.sqrt(Vector2.distance_between_squared(a, b))
     @staticmethod
     def clamp_magnitude(original : 'Vector2', max_magnitude : float | int) -> 'Vector2':
         """Returns a copy of the vector with its magnitude clamped"""
@@ -213,7 +213,8 @@ class Vector2:
         if type(n) != int: raise TypeError("Must round to an `int` number of decimal places")
         return Vector2(round(self.x, n), round(self.y, n))
     def __hash__(self):
-        return hash([self.x, self.y])
+        #As this is a mutable object, it cannot be hashed
+        return None
     
     def __eq__(self, other : 'Vector2'):
         if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")

@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pVectors"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Raahguu", email="raahguu@myyahoo.com" },
 ]
-description = "A small python package for handling vectors based off of the Unity Vector2D class"
+description = "A small python package for handling vectors based off of the c# and c Vector2 class"
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
