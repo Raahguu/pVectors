@@ -7,3 +7,5 @@ pVector is a python module designed to help handle vectors, and calculations aro
 ```text
 math
 ```
+
+The `math` module  is just used for getting some mathmatical constants (pi, e, ...), doing square roots, and sin, and cos.
