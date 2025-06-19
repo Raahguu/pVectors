@@ -58,13 +58,13 @@ class Vector2:
             elif isinstance(args[0], 'Vector2'):
                 self.x = args[0].x
                 self.y = args[0].y
-            else: raise TypeError("Excpected either (x, y), (value), ([x, y]), (Vector2), or ()")
+            else: raise TypeError("Expected either (x, y), (value), ([x, y]), (Vector2), or ()")
         elif len(args) == 2:
             self.x, self.y = float(args[0]), float(args[1])
         elif len(args) == 0:
             self.x, self.y = 0
         else:
-            raise TypeError("Excpected either (x, y), (value), ([x, y]), (Vector2), or ()")
+            raise TypeError("Expected either (x, y), (value), ([x, y]), (Vector2), or ()")
 
 
     #Getters and Setters
@@ -84,7 +84,7 @@ class Vector2:
         self.__y = value
     @property
     def angle(self) -> float:
-        """The angle in randians clockwise from (1, 0) to this vector. Ranges from (-pi, pi]"""
+        """The angle in radians clockwise from (1, 0) to this vector. Ranges from (-pi, pi]"""
         return math.atan2(self.y, self.x)
     @angle.setter
     def angle(self, value : float):
@@ -163,7 +163,7 @@ class Vector2:
         return Vector2(original.x / length * max_magnitude , original.y / length * max_magnitude)
     @staticmethod
     def clamp_magnitude_squared(original : 'Vector2', max_magnitude_squared : float | int) -> 'Vector2':
-        """Returns a copy of the vector with its magnitue squared capped"""
+        """Returns a copy of the vector with its magnitude squared capped"""
         length_squared = original.magnitude_squared
         if length_squared <= max_magnitude_squared: return Vector2(original)
         return Vector2(original.x / length_squared * max_magnitude_squared , original.y / length_squared * max_magnitude_squared)
@@ -179,13 +179,13 @@ class Vector2:
         else: return Vector2(original)
     @staticmethod
     def lerp(a : 'Vector2', b : 'Vector2', t : float) -> 'Vector2':
-        """Linearly interpolates between two vectors by `t`. The paramater `t` is clamped to the range [0, 1]"""
+        """Linearly interpolates between two vectors by `t`. The parameter `t` is clamped to the range [0, 1]"""
         if t < 0: t = 0
         elif t > 1: t = 1
         return a + (b - a) *  t
     @staticmethod
     def lerp_unclamped(a : 'Vector2', b : 'Vector2', t : float) -> 'Vector2':
-        """Linearly interpolates between two vectors by `t`. The paramater `t` is unclamped"""
+        """Linearly interpolates between two vectors by `t`. The parameter `t` is unclamped"""
         return a + (b - a) * t
     
     @staticmethod
@@ -198,7 +198,7 @@ class Vector2:
         return Vector2(min(a.x, b.x), min(a.y, b.y))
     @staticmethod
     def scale(a : 'Vector2', b : 'Vector2') -> 'Vector2':
-        """Returns the mutliple of two vectors component wise"""
+        """Returns the multiple of two vectors component wise"""
         return Vector2(a.x * b.x, a.y * b.y)
     @staticmethod
     def degrees_to_radians(degrees : float) -> float:
@@ -268,14 +268,14 @@ class Vector2:
         elif isinstance(other, (list, tuple)):
             if len(other) == 2: return Vector2(self.x - other[0], self.y - other[1])
             else: raise ValueError(f"When minusing type `Vector2` and type `{type(other)}`, then the `{type(other)}` must be of length 2")
-        else: raise TypeError(f"Cannot minus type `Vector2` and type `{type(other)}`")
+        else: raise TypeError(f"Cannot subtract type `Vector2` and type `{type(other)}`")
     def __rsub__(self, other):
         if isinstance(other, Vector2): return Vector2(other.x - self.x, other.y - self.y)
         elif isinstance(other, (int, float)): return Vector2(other - self.x, other - self.y)
         elif isinstance(other, (list, tuple)):
             if len(other) == 2: return Vector2(other[0] - self.x, other[1] - self.y)
             else: raise ValueError(f"When minusing type `{type(other)}` and type `Vector2`, then the `{type(other)}` must be of length 2")
-        else: raise TypeError(f"Cannot minus type `{type(other)}` and type `Vector2`")
+        else: raise TypeError(f"Cannot subtract type `{type(other)}` and type `Vector2`")
     
     def __mul__(self, other):
         if isinstance(other, Vector2): return Vector2.scale(self, other)
