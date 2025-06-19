@@ -30,6 +30,11 @@ class Vector2:
         """The `components` needs to be a iterator of length 2, containing the `x` and `y` values"""
         ...
     @overload
+    def __init__(self, magnitude : float | int, angle : float | int, polar : bool) -> None:
+        """Instead of creating a `Vector2` by its components, specify the `magnitude` and `angle` from `Vector2(1, 0)` instead. 
+        To use this polar method, the polar flag must be explicitly set to true with `polar=True`"""
+        ...
+    @overload
     def __init__(self, vector : 'Vector2') -> None:
         """Creates a copy of the given vector"""
         ...
@@ -37,8 +42,12 @@ class Vector2:
     def __init__(self) -> None:
         """Creates a Vector2, with an `x` and `y` value of zero"""
         ...
-    def __init__(self, *args):
-        if len(args) == 1:
+    def __init__(self, *args, polar = False):
+        if polar:
+            self.x, self.y = 1, 1
+            self.angle = args[1]
+            self.magnitude = args[0]
+        elif len(args) == 1:
             if isinstance(args[0], (float, int)):
                 self.x, self.y = (float(args[0]),) * 2
             elif isinstance(args[0], (list, tuple)):
@@ -75,12 +84,12 @@ class Vector2:
         self.__y = value
     @property
     def angle(self) -> float:
-        """The angle in randians clockwise from (1, 0) to this vector. Ranges from [pi, -pi)"""
+        """The angle in randians clockwise from (1, 0) to this vector. Ranges from (-pi, pi]"""
         return math.atan2(self.y, self.x)
     @angle.setter
     def angle(self, value : float):
         value = float(value)
-        if value > math.pi or value < -math.pi: raise ValueError("The angle of a `Vector2` must be within [pi, -pi)]")
+        if value > math.pi or value < -math.pi: raise ValueError("The angle of a `Vector2` must be within (-pi, pi]")
         length = self.magnitude
         self.x = math.cos(value) * length
         self.y = math.sin(value) * length
@@ -219,6 +228,10 @@ class Vector2:
         if not isinstance(n, int): raise TypeError("Must round to an `int` number of decimal places")
         return Vector2(round(self.x, n), round(self.y, n))
     __hash__ = None
+    def __getitem__(self, i):
+        if i == 0: return self.x
+        elif i == 1: return self.y
+        else: raise IndexError("`Vector2` only has 2 components: [0] for x and [1] for y")
     
     def __eq__(self, other : 'Vector2'):
         if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
