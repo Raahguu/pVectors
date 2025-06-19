@@ -62,7 +62,7 @@ class Vector2:
         elif len(args) == 2:
             self.x, self.y = float(args[0]), float(args[1])
         elif len(args) == 0:
-            self.x, self.y = 0
+            self.x, self.y = 0, 0
         else:
             raise TypeError("Expected either (x, y), (value), ([x, y]), (Vector2), or ()")
 
