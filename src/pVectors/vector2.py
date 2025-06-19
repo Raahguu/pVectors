@@ -16,8 +16,9 @@ class Vector2:
     E: ClassVar['Vector2']
     PI: ClassVar['Vector2']
 
+    #constructors
     @overload
-    def __init__(self, x : float, y : float) -> None: 
+    def __init__(self, x : float | int, y : float | int) -> None: 
         """Specify the `x` and `y` componets of the vector"""
         ...
     @overload
@@ -32,9 +33,13 @@ class Vector2:
     def __init__(self, vector : 'Vector2') -> None:
         """Creates a copy of the given vector"""
         ...
+    @overload
+    def __init__(self) -> None:
+        """Creates a Vector2, with an `x` and `y` value of zero"""
+        ...
     def __init__(self, *args):
         if len(args) == 1:
-            if isinstance(args[0], (float, int, str)):
+            if isinstance(args[0], (float, int)):
                 self.x, self.y = (float(args[0]),) * 2
             elif isinstance(args[0], (list, tuple)):
                 components = args[0]
@@ -44,11 +49,13 @@ class Vector2:
             elif isinstance(args[0], 'Vector2'):
                 self.x = args[0].x
                 self.y = args[0].y
-            else: raise TypeError("Excpected either (x, y), (value), ([x, y]), or (vector2)")
+            else: raise TypeError("Excpected either (x, y), (value), ([x, y]), (Vector2), or ()")
         elif len(args) == 2:
             self.x, self.y = float(args[0]), float(args[1])
+        elif len(args) == 0:
+            self.x, self.y = 0
         else:
-            raise TypeError("Excpected either (x, y), (value), ([x, y]), or (vector2)")
+            raise TypeError("Excpected either (x, y), (value), ([x, y]), (Vector2), or ()")
 
 
     #Getters and Setters
@@ -106,7 +113,6 @@ class Vector2:
         """Returns a new vector in the same direction of the original but with a `magnitude` or `length` of 1"""
         divisor = self.magnitude
         return Vector2(self.x / divisor, self.y / divisor)
-    
     def unit_vector_towards(a : 'Vector2', b : 'Vector2') -> 'Vector2':
         """Returns a unit vector pointing in the direction towards the `b` from `a`"""
         return (b - a).normalized()
@@ -210,35 +216,33 @@ class Vector2:
     def __abs__(self):
         return Vector2(abs(self.x), abs(self.y))
     def __round__(self, n : int):
-        if type(n) != int: raise TypeError("Must round to an `int` number of decimal places")
+        if not isinstance(n, int): raise TypeError("Must round to an `int` number of decimal places")
         return Vector2(round(self.x, n), round(self.y, n))
-    def __hash__(self):
-        #As this is a mutable object, it cannot be hashed
-        return None
+    __hash__ = None
     
     def __eq__(self, other : 'Vector2'):
-        if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
+        if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
         return [self.x, self.y] == [other.x, other.y]
     def __ne__(self, other : 'Vector2'):
-        if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
+        if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
         return [self.x, self.y] != [other.x, other.y]
     def __lt__(self, other : 'Vector2'):
-        if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
+        if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
         return self.magnitude_squared < other.magnitude_squared
     def __le__(self, other : 'Vector2'):
-        if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
+        if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
         return self.magnitude_squared <= other.magnitude_squared
     def __gt__(self, other : 'Vector2'):
-        if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
+        if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
         return self.magnitude_squared > other.magnitude_squared
     def __ge__(self, other : 'Vector2'):
-        if type(other) != Vector2: raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
+        if not isinstance(other, Vector2): raise TypeError(f"Cannot compare type `Vector2` with type `{type(other)}`")
         return self.magnitude_squared >= other.magnitude_squared
     
     def __add__(self, other):
-        if type(other) == Vector2: return Vector2(self.x + other.x, self.y + other.y)
-        elif type(other) in (int, float): return Vector2(self.x + other, self.y + other)
-        elif type(other) in (list, tuple):
+        if isinstance(other, Vector2): return Vector2(self.x + other.x, self.y + other.y)
+        elif isinstance(other, (int, float)): return Vector2(self.x + other, self.y + other)
+        elif isinstance(other, (list, tuple)):
             if len(other) == 2: return Vector2(self.x + other[0], self.y + other[1])
             else: raise ValueError(f"When adding type `Vector2` and type `{type(other)}`, then the `{type(other)}` must be of length 2")
         else: raise TypeError(f"Cannot add type `Vector2` and type `{type(other)}`")
@@ -246,16 +250,16 @@ class Vector2:
         return self.__add__(other)
     
     def __sub__(self, other):
-        if type(other) == Vector2: return Vector2(self.x - other.x, self.y - other.y)
-        elif type(other) in (int, float): return Vector2(self.x - other, self.y - other)
-        elif type(other) in (list, tuple):
+        if isinstance(other, Vector2): return Vector2(self.x - other.x, self.y - other.y)
+        elif isinstance(other, (int, float)): return Vector2(self.x - other, self.y - other)
+        elif isinstance(other, (list, tuple)):
             if len(other) == 2: return Vector2(self.x - other[0], self.y - other[1])
             else: raise ValueError(f"When minusing type `Vector2` and type `{type(other)}`, then the `{type(other)}` must be of length 2")
         else: raise TypeError(f"Cannot minus type `Vector2` and type `{type(other)}`")
     def __rsub__(self, other):
-        if type(other) == Vector2: return Vector2(other.x - self.x, other.y - self.y)
-        elif type(other) in (int, float): return Vector2(other - self.x, other - self.y)
-        elif type(other) in (list, tuple):
+        if isinstance(other, Vector2): return Vector2(other.x - self.x, other.y - self.y)
+        elif isinstance(other, (int, float)): return Vector2(other - self.x, other - self.y)
+        elif isinstance(other, (list, tuple)):
             if len(other) == 2: return Vector2(other[0] - self.x, other[1] - self.y)
             else: raise ValueError(f"When minusing type `{type(other)}` and type `Vector2`, then the `{type(other)}` must be of length 2")
         else: raise TypeError(f"Cannot minus type `{type(other)}` and type `Vector2`")
@@ -271,13 +275,13 @@ class Vector2:
         return Vector2.dot(self, other)
     
     def __truediv__(self, other):
-        if type(other) not in (int, float): raise TypeError("Can only divide a type `Vector2`, by a scalar multiple (`int` or `float`)")
+        if not isinstance(other, (int, float)): raise TypeError("Can only divide a type `Vector2`, by a scalar multiple (`int` or `float`)")
         return Vector2(self.x / other, self.y / other)
     def __floordiv__(self, other):
-        if type(other) not in (int, float): raise TypeError("Can only floor divide a type `Vector2`, by a scalar multiple (`int` or `float`)")
+        if not isinstance(other, (int, float)): raise TypeError("Can only floor divide a type `Vector2`, by a scalar multiple (`int` or `float`)")
         return Vector2(self.x // other, self.y // other)
     def __pow__(self, other):
-        if type(other) not in (int, float): raise TypeError("A type `Vector2`, can only be exponentiated by a scalar multiple (`int` or `float`)")
+        if not isinstance(other, (int, float)): raise TypeError("A type `Vector2`, can only be exponentiated by a scalar multiple (`int` or `float`)")
         return Vector2(self.x ** other, self.y ** other)
     def __neg__(self):
         return Vector2(-self.x, -self.y)
