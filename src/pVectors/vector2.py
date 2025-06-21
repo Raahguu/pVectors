@@ -55,7 +55,7 @@ class Vector2:
                 if len(components) != 2:
                     raise TypeError("Expected a list or tuple of length 2")
                 self.x, self.y = float(components[0]), float(components[1])
-            elif isinstance(args[0], 'Vector2'):
+            elif isinstance(args[0], Vector2):
                 self.x = args[0].x
                 self.y = args[0].y
             else: raise TypeError("Expected either (x, y), (value), ([x, y]), (Vector2), or ()")
